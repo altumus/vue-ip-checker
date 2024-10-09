@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@types/ua-parser-js": "^0.7.39",
     "axios": "^1.7.7",
     "element-plus": "^2.8.4",
     "is-ip": "^5.0.1",
     "pinia": "^2.2.4",
+    "ua-parser-js": "^1.0.39",
     "vue": "^3.5.10",
     "vue-router": "^4.4.5"
   },

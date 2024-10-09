@@ -14,3 +14,16 @@ export interface IpInformationInterface {
   as: string; // Автономная система
   query: string; // IP-адрес или запрос
 }
+
+export interface IpInformationWithUserInfoInterface
+  extends IpInformationInterface {
+  userAgent: string;
+  javascript: string;
+  headers: string;
+  browser: string;
+  browserVersion: string;
+}
+
+export interface IpResponseWithHeaders extends IpInformationInterface {
+  headers: string;
+}

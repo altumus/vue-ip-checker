@@ -23,6 +23,8 @@
     </template>
   </el-page-header>
 
+  {{ detailsInfo }}
+
   <el-container>
     <el-header>
       <span
@@ -32,32 +34,27 @@
       </span>
     </el-header>
 
-    <el-main>
+    <el-main v-if="detailsInfo">
       <el-container>
         <div class="flex w-full gap-x-[20px]">
           <!-- ip stats -->
           <div class="flex h-full flex-col w-[50%]">
             <!-- stat item -->
             <div
-              v-for="(stat, index) in ipStatsOptions"
-              :key="stat.name"
-              :class="{
-                'bg-[#F7F9FB]': index % 2 === 0,
-                'rounded-t-[16px]': index === 0,
-                'rounded-b-[16px]': index === ipStatsOptions.length - 1,
-              }"
+              v-for="(value, key) in detailsInfo"
+              :key="key"
               class="flex h-[48px] border-[1px] border-[#E1E8F1] p-[16px] justify-between items-center w-full"
             >
               <div
                 class="flex text-[#303345] font-[500] leading-[16px] text-[14px] items-center"
               >
-                {{ stat.name }}
+                {{ key }}:
               </div>
 
               <div
                 class="flex text-[#303345] text-[14px] leading-[16px] items-center"
               >
-                {{ stat.value }}
+                {{ value }}
               </div>
             </div>
           </div>
@@ -96,59 +93,28 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
+import { useIpStore } from '../stores/ipStore';
+import { computed, onMounted } from 'vue';
+
+onMounted(() => {
+  ipStore.fetchIpWithClientInfo(ipParam);
+});
 
 const route = useRoute();
 const router = useRouter();
-const ipParam = route.params.ip;
+const ipStore = useIpStore();
+
+const ipParam = route.params.ip as string;
+
+const detailsInfo = computed(() => {
+  return ipStore.detailedIpInfo;
+});
 
 function goBack() {
   router.push('/');
 }
 
 // constants
-const ipStatsOptions = [
-  {
-    name: 'Выборка:',
-    value: '???',
-  },
-  {
-    name: 'Страна:',
-    value: '???',
-  },
-  {
-    name: 'Код страны:',
-    value: '???',
-  },
-  {
-    name: 'Регион:',
-    value: '???',
-  },
-  {
-    name: 'Город:',
-    value: '???',
-  },
-  {
-    name: 'As:',
-    value: '???',
-  },
-  {
-    name: 'Asname:',
-    value: '???',
-  },
-  {
-    name: 'Телефон:',
-    value: '???',
-  },
-  {
-    name: 'Прокси:',
-    value: '???',
-  },
-  {
-    name: 'Хост:',
-    value: '???',
-  },
-];
-
 const pcStatsOptions = [
   {
     name: 'ОС:',

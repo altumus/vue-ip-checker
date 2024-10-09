@@ -1,11 +1,18 @@
 import { defineStore } from 'pinia';
 import * as Api from '../services/ipService';
-import { IpInformationInterface } from '../types/ipType';
+import {
+  IpInformationInterface,
+  IpInformationWithUserInfoInterface,
+} from '../types/ipType';
+import { UAParser } from 'ua-parser-js';
+
+const userParser = new UAParser();
+const userParseResults = userParser.getResult();
 
 export const useIpStore = defineStore('ipStore', {
   state: () => ({
     fetchedIpList: [] as IpInformationInterface[],
-    detailedIpInfo: null as IpInformationInterface | null,
+    detailedIpInfo: null as IpInformationWithUserInfoInterface | null,
   }),
   actions: {
     async fetchIpList(list: string[]) {
@@ -17,9 +24,16 @@ export const useIpStore = defineStore('ipStore', {
       const responses: IpInformationInterface[] = await Promise.all(requests);
       this.fetchedIpList = [...responses];
     },
-    async fetchIp(ip: string) {
-      const response = await Api.fetchIp(ip);
-      this.detailedIpInfo = { ...response };
+    async fetchIpWithClientInfo(ip: string) {
+      const response = await Api.fetchIpWithHeaders(ip);
+      this.detailedIpInfo = {
+        ...response,
+        userAgent: userParseResults.os.name || '???',
+        browser: userParseResults.browser.name || '???',
+        browserVersion: userParseResults.browser.version || '???',
+        javascript: userParseResults.engine.name || '???',
+        headers: response.headers,
+      };
     },
     removeIpInfo(ipToDelete: string) {
       const ipIndex = this.fetchedIpList.findIndex(
