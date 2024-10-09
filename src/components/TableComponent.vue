@@ -18,10 +18,11 @@
     </div>
 
     <!-- table block -->
-    <el-table class="w-full">
+    <el-table class="w-full rounded-[16px]">
       <el-table-column prop="ip" label="IP" sortable />
-      <el-table-column prop="country" label="Country" sortable />
-      <el-table-column prop="region" label="Region" sortable />
+      <el-table-column prop="country" label="Страна" sortable />
+      <el-table-column prop="region" label="Регион" sortable />
+      <el-table-column />
     </el-table>
   </div>
 </template>
