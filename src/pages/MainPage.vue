@@ -24,6 +24,7 @@
         />
 
         <el-button
+          @click="searchIpInfo"
           size="large"
           class="w-[145px]"
           color="#070707"
@@ -53,10 +54,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TableComponent from '../components/TableComponent.vue';
+import { isIP } from 'is-ip';
+import { useIpStore } from '../stores/ipStore';
 
-// static info
+const ipStore = useIpStore();
+
 const inputPlaceholder = `47.236.161.323.11\n47.236.161.323.11\n47.236.161.323.11`;
-
-// data
 const inputValue = ref('');
+
+// methods
+async function searchIpInfo() {
+  const ipArray = inputValue.value.split(`\n`);
+
+  // убираем повторяющиеся ip и валидируем имеющиеся
+  const filteredIpArray = [...new Set(ipArray.filter((ip) => isIP(ip)))];
+
+  ipStore.fetchIpList(filteredIpArray);
+}
 </script>
