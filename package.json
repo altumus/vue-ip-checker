@@ -11,6 +11,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "element-plus": "^2.8.4",
     "vue": "^3.5.10"
   },
   "devDependencies": {
@@ -29,6 +30,8 @@
     "tailwindcss": "^3.4.13",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.8.1",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.8",
     "vue-tsc": "^2.1.6"
   }
