@@ -1,9 +1,11 @@
 <template>
   <el-container>
-    <el-header
-      class="text-[24px] font-[700] leading-[32px] tracking-[-5%] text-[#303345]"
-    >
-      Проверка IP
+    <el-header>
+      <span
+        class="text-[24px] font-[700] leading-[32px] tracking-[-5%] text-[#303345]"
+      >
+        Проверка IP
+      </span>
     </el-header>
 
     <el-main>
@@ -34,10 +36,12 @@
   </el-container>
 
   <el-container>
-    <el-header
-      class="text-[24px] font-[700] leading-[32px] tracking-[-5%] text-[#303345]"
-    >
-      Результаты
+    <el-header>
+      <span
+        class="text-[24px] font-[700] leading-[32px] tracking-[-5%] text-[#303345]"
+      >
+        Результаты
+      </span>
     </el-header>
 
     <el-main>
