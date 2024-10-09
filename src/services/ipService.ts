@@ -15,7 +15,7 @@ export async function fetchIpWithHeaders(
 ): Promise<IpResponseWithHeaders> {
   try {
     const response = await axios.get(`http://ip-api.com/json/${ip}`);
-    return { ...response.data, headers: JSON.stringify(response.headers) };
+    return { ipInfo: response.data, headers: JSON.stringify(response.headers) };
   } catch (error) {
     return Promise.reject(error);
   }

@@ -15,15 +15,15 @@ export interface IpInformationInterface {
   query: string; // IP-адрес или запрос
 }
 
-export interface IpInformationWithUserInfoInterface
-  extends IpInformationInterface {
-  userAgent: string;
+export interface ClientInformation {
+  os: string;
   javascript: string;
   headers: string;
   browser: string;
   browserVersion: string;
 }
 
-export interface IpResponseWithHeaders extends IpInformationInterface {
+export interface IpResponseWithHeaders {
+  ipInfo: IpInformationInterface;
   headers: string;
 }

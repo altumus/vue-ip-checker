@@ -23,8 +23,6 @@
     </template>
   </el-page-header>
 
-  {{ detailsInfo }}
-
   <el-container>
     <el-header>
       <span
@@ -43,7 +41,7 @@
             <div
               v-for="(value, key) in detailsInfo"
               :key="key"
-              class="flex h-[48px] border-[1px] border-[#E1E8F1] p-[16px] justify-between items-center w-full"
+              class="flex min-h-[48px] border-[1px] border-[#E1E8F1] p-[16px] justify-between items-center w-full"
             >
               <div
                 class="flex text-[#303345] font-[500] leading-[16px] text-[14px] items-center"
@@ -63,25 +61,20 @@
           <div class="flex flex-col w-[50%]">
             <!-- stat item -->
             <div
-              v-for="(stat, index) in pcStatsOptions"
-              :key="stat.name"
-              :class="{
-                'bg-[#F7F9FB]': index % 2 === 0,
-                'rounded-t-[16px]': index === 0,
-                'rounded-b-[16px]': index === pcStatsOptions.length - 1,
-              }"
-              class="flex h-[48px] border-[1px] border-[#E1E8F1] p-[16px] justify-between items-center w-full"
+              v-for="(value, key) in clientInfo"
+              :key="key"
+              class="flex min-h-[48px] h-auto border-[1px] border-[#E1E8F1] p-[16px] justify-between items-center w-full"
             >
               <div
                 class="flex text-[#303345] font-[500] leading-[16px] text-[14px] items-center"
               >
-                {{ stat.name }}
+                {{ key }}
               </div>
 
               <div
-                class="flex text-[#303345] text-[14px] leading-[16px] items-center"
+                class="flex max-w-[300px] text-[#303345] text-[14px] leading-[16px] items-center"
               >
-                {{ stat.value }}
+                {{ value }}
               </div>
             </div>
           </div>
@@ -110,27 +103,11 @@ const detailsInfo = computed(() => {
   return ipStore.detailedIpInfo;
 });
 
+const clientInfo = computed(() => {
+  return ipStore.userInfo;
+});
+
 function goBack() {
   router.push('/');
 }
-
-// constants
-const pcStatsOptions = [
-  {
-    name: 'ОС:',
-    value: '???',
-  },
-  {
-    name: 'Браузер:',
-    value: '???',
-  },
-  {
-    name: 'Заголовок:',
-    value: '???',
-  },
-  {
-    name: 'JavaScript:',
-    value: '???',
-  },
-];
 </script>

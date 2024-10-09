@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia';
 import * as Api from '../services/ipService';
-import {
-  IpInformationInterface,
-  IpInformationWithUserInfoInterface,
-} from '../types/ipType';
+import { ClientInformation, IpInformationInterface } from '../types/ipType';
 import { UAParser } from 'ua-parser-js';
 
 const userParser = new UAParser();
@@ -12,7 +9,8 @@ const userParseResults = userParser.getResult();
 export const useIpStore = defineStore('ipStore', {
   state: () => ({
     fetchedIpList: [] as IpInformationInterface[],
-    detailedIpInfo: null as IpInformationWithUserInfoInterface | null,
+    detailedIpInfo: null as IpInformationInterface | null,
+    userInfo: null as ClientInformation | null,
   }),
   actions: {
     async fetchIpList(list: string[]) {
@@ -26,13 +24,14 @@ export const useIpStore = defineStore('ipStore', {
     },
     async fetchIpWithClientInfo(ip: string) {
       const response = await Api.fetchIpWithHeaders(ip);
-      this.detailedIpInfo = {
-        ...response,
-        userAgent: userParseResults.os.name || '???',
+      this.detailedIpInfo = response.ipInfo;
+
+      this.userInfo = {
+        headers: response.headers,
+        os: userParseResults.os.name || '???',
         browser: userParseResults.browser.name || '???',
         browserVersion: userParseResults.browser.version || '???',
         javascript: userParseResults.engine.name || '???',
-        headers: response.headers,
       };
     },
     removeIpInfo(ipToDelete: string) {
