@@ -46,13 +46,17 @@
     </el-header>
 
     <el-main>
-      <TableComponent />
+      <TableComponent
+        v-model:searchValue="searchValue"
+        @remove-ip-emit="onIpRemove"
+        :ip-info-list="searchFilteredIps"
+      />
     </el-main>
   </el-container>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import TableComponent from '../components/TableComponent.vue';
 import { isIP } from 'is-ip';
 import { useIpStore } from '../stores/ipStore';
@@ -61,6 +65,17 @@ const ipStore = useIpStore();
 
 const inputPlaceholder = `47.236.161.323.11\n47.236.161.323.11\n47.236.161.323.11`;
 const inputValue = ref('');
+const searchValue = ref('');
+
+const fetchedIpList = computed(() => {
+  return ipStore.fetchedIpList;
+});
+
+const searchFilteredIps = computed(() => {
+  return fetchedIpList.value.filter((ipItem) =>
+    ipItem.query.includes(searchValue.value.trim())
+  );
+});
 
 // methods
 async function searchIpInfo() {
@@ -70,5 +85,9 @@ async function searchIpInfo() {
   const filteredIpArray = [...new Set(ipArray.filter((ip) => isIP(ip)))];
 
   ipStore.fetchIpList(filteredIpArray);
+}
+
+function onIpRemove(ip: string) {
+  ipStore.removeIpInfo(ip);
 }
 </script>

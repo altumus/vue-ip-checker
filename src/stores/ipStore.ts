@@ -21,5 +21,14 @@ export const useIpStore = defineStore('ipStore', {
       const response = await Api.fetchIp(ip);
       this.detailedIpInfo = { ...response };
     },
+    removeIpInfo(ipToDelete: string) {
+      const ipIndex = this.fetchedIpList.findIndex(
+        (ipItem) => ipItem.query === ipToDelete
+      );
+
+      if (ipIndex === -1) return;
+
+      this.fetchedIpList.splice(ipIndex, 1);
+    },
   },
 });

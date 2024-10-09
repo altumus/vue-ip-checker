@@ -9,7 +9,7 @@
       <div class="flex w-full">
         <!-- search input -->
         <el-input
-          v-model="inputValue"
+          v-model="searchValue"
           :prefix-icon="Search"
           size="large"
           placeholder="Что вы хотите найти?"
@@ -18,18 +18,37 @@
     </div>
 
     <!-- table block -->
-    <el-table class="w-full rounded-[16px]">
-      <el-table-column prop="ip" label="IP" sortable />
+    <el-table :data="props.ipInfoList" class="w-full rounded-[16px]">
+      <el-table-column prop="query" label="IP" sortable />
       <el-table-column prop="country" label="Страна" sortable />
       <el-table-column prop="region" label="Регион" sortable />
-      <el-table-column />
+      <el-table-column>
+        <template #default="scope">
+          <div class="w-full flex gap-x-[20px] justify-end items-center">
+            <Delete
+              @click="removeIp(scope.row.query)"
+              class="h-[16px] cursor-pointer w-[16px]"
+            />
+
+            <ArrowRight class="h-[16px] cursor-pointer w-[16px]" />
+          </div>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue';
-import { ref } from 'vue';
+import { IpInformationInterface } from '../types/ipType';
+import { Delete, ArrowRight } from '@element-plus/icons-vue';
 
-const inputValue = ref('');
+const props = defineProps<{ ipInfoList: IpInformationInterface[] }>();
+const emits = defineEmits(['removeIpEmit']);
+
+const searchValue = defineModel('searchValue');
+
+function removeIp(ip: string) {
+  emits('removeIpEmit', ip);
+}
 </script>
