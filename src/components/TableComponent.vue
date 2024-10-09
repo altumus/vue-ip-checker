@@ -30,7 +30,9 @@
               class="h-[16px] cursor-pointer w-[16px]"
             />
 
-            <ArrowRight class="h-[16px] cursor-pointer w-[16px]" />
+            <router-link :to="`/ip-details/${scope.row.query}`">
+              <ArrowRight class="h-[16px] cursor-pointer w-[16px]" />
+            </router-link>
           </div>
         </template>
       </el-table-column>
